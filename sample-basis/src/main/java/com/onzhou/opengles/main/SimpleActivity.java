@@ -6,6 +6,7 @@ import android.opengl.GLSurfaceView;
 
 import com.onzhou.opengles.base.AbsGLSurfaceActivity;
 import com.onzhou.opengles.simple.IndicesCubeRenderer;
+import com.onzhou.opengles.simple.PointRenderer;
 
 /**
  * @anchor: andy
@@ -21,7 +22,7 @@ public class SimpleActivity extends AbsGLSurfaceActivity {
 
     @Override
     protected GLSurfaceView.Renderer bindRenderer() {
-        return new IndicesCubeRenderer();
+        return new PointRenderer();
     }
 
 }

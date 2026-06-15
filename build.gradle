@@ -1,18 +1,23 @@
-apply from: "config.gradle"
-
 buildscript {
-    
+    apply from: "config.gradle"
     repositories {
         mavenLocal()
         mavenCentral()
         google()
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.1'
+//    dependencies {
+//        classpath 'com.android.tools.build:gradle:7.2.1'
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlinVersion}"
+//
+//        // NOTE: Do not place your application dependencies here; they belong
+//        // in the individual module build.gradle files
+//    }
+}
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
+plugins {
+    id 'com.android.application' version '7.2.1' apply false
+    id 'com.android.library' version '7.2.1' apply false
+    id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
 }
 
 allprojects {

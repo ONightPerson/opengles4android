@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     //构建版本
@@ -23,6 +24,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlinVersion}"
     implementation "androidx.core:core-ktx:${versions.coreKtxVersion}"
     implementation "androidx.appcompat:appcompat:${versions.appcompatVersion}"
 
