@@ -21,6 +21,13 @@
             style="@style/SampleTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onHollowCubeClick"
+            android:text="镂空立方体" />
+
+        <Button
+            style="@style/SampleTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:onClick="onColorClick"
             android:text="颜色显示" />
 

@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.opengl.GLSurfaceView;
 
 import com.onzhou.opengles.base.AbsGLSurfaceActivity;
+import com.onzhou.opengles.simple.ColorCubeRenderer;
 import com.onzhou.opengles.simple.IndicesCubeRenderer;
-import com.onzhou.opengles.simple.PointRenderer;
+import com.onzhou.opengles.simple.LineCubeRenderer;
+import com.onzhou.opengles.simple.UniformRenderer;
 
 /**
  * @anchor: andy
@@ -22,7 +24,7 @@ public class SimpleActivity extends AbsGLSurfaceActivity {
 
     @Override
     protected GLSurfaceView.Renderer bindRenderer() {
-        return new PointRenderer();
+        return new IndicesCubeRenderer();
     }
 
 }

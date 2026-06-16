@@ -58,7 +58,7 @@ public class UniformRenderer implements GLSurfaceView.Renderer {
             String uniformName = new String(nameBuffer);
             int location = GLES30.glGetUniformLocation(mProgram, uniformName);
 
-            Log.d(TAG, "uniformName=" + uniformName + " location=" + location + " type=" + type[0] + " size=" + size[0]);
+            Log.d(TAG, "uniformName=" + uniformName + " location=" + location + "length = " + length[0] + " type=" + type[0] + " size=" + size[0]);
         }
     }
 

@@ -36,12 +36,12 @@ public class RectangleRenderer implements GLSurfaceView.Renderer {
      * 点的坐标
      */
     private float[] vertexPoints = new float[]{
-            0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-            -0.5f, -0.8f, 1.0f, 1.0f, 1.0f,
-            0.5f, -0.8f, 1.0f, 1.0f, 1.0f,
-            0.5f, 0.8f, 1.0f, 1.0f, 1.0f,
-            -0.5f, 0.8f, 1.0f, 1.0f, 1.0f,
-            -0.5f, -0.8f, 1.0f, 1.0f, 1.0f,
+            0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+            -0.5f, -0.8f, 0.0f, 1.0f, 0.0f,
+            0.5f, -0.8f, 0.0f, 0.0f, 1.0f,
+            0.5f, 0.8f, 1.0f, 1.0f, 0.0f,
+            -0.5f, 0.8f, 1.0f, 0.0f, 1.0f,
+            -0.5f, -0.8f, 0.0f, 1.0f, 1.0f,
 
             0.0f, 0.25f, 0.5f, 0.5f, 0.5f,
             0.0f, -0.25f, 0.5f, 0.5f, 0.5f,

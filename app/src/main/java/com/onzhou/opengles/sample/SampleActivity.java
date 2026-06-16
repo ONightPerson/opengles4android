@@ -32,6 +32,10 @@ public class SampleActivity extends AbsBaseActivity {
         SimpleActivity.intentStart(this);
     }
 
+    public void onHollowCubeClick(View view) {
+        com.onzhou.opengles.main.HollowCubeActivity.intentStart(this);
+    }
+
     public void onColorClick(View view) {
         ColorActivity.intentStart(this);
     }

@@ -15,9 +15,12 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 /**
- * @anchor: andy
- * @date: 2018-11-02
- * @description: 顶点数组对象
+ * @author : andy
+ * @since : 2018-11-02
+ * 顶点数组对象
+ * 一句话总结依赖关系：VAO 依赖于 VBO（记录数据在哪），但 VBO 不依赖于 VAO（没有 VAO，数据也能被直接使用）
+ * OpenGL ES 3.0 强制要求至少有一个 VAO 处于活动状态（默认 ID 为 0 也算）。只用 VBO”的写法，其实操作的是系统默认的 VAO（ID=0）
+ * 这就是为什么它能跑起来
  */
 public class VertexArrayRenderer implements GLSurfaceView.Renderer {
 
@@ -69,12 +72,13 @@ public class VertexArrayRenderer implements GLSurfaceView.Renderer {
         //鏈接程序片段
         mProgram = ShaderUtils.linkProgram(vertexShaderId, fragmentShaderId);
 
-        //生成1个缓冲ID
+        // 1. 生成 VAO ID（拣货单编号）
         GLES30.glGenVertexArrays(1, vaoIds, 0);
 
-        //绑定VAO
+        // 2. 绑定 VAO（拿出这张拣货单，开始记录）
         GLES30.glBindVertexArray(vaoIds[0]);
 
+        // 【重点】接下来的所有设置（bind, pointer, enable）都会被“记录”进这个 VAO！
         //1. 生成1个缓冲ID
         GLES30.glGenBuffers(1, vboIds, 0);
         //2. 向顶点坐标数据缓冲送入数据把顶点数组复制到缓冲中
