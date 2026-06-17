@@ -39,6 +39,7 @@ public class TextureRenderer implements GLSurfaceView.Renderer {
     private int mProgram;
 
     private int textureId;
+    private int uTextureUnit;
 
     /**
      * 顶点坐标
@@ -60,8 +61,8 @@ public class TextureRenderer implements GLSurfaceView.Renderer {
             0.5f, 0.5f, //纹理坐标V0
             1f, 0f,     //纹理坐标V1
             0f, 0f,     //纹理坐标V2
-            0f, 1.0f,   //纹理坐标V3
-            1f, 1.0f    //纹理坐标V4
+            0f, 1f,   //纹理坐标V3
+            1f, 1f    //纹理坐标V4
     };
 
     /**
@@ -112,6 +113,7 @@ public class TextureRenderer implements GLSurfaceView.Renderer {
         mProgram = ShaderUtils.linkProgram(vertexShaderId, fragmentShaderId);
 
         uMatrixLocation = GLES30.glGetUniformLocation(mProgram, "u_Matrix");
+        uTextureUnit = GLES30.glGetUniformLocation(mProgram, "uTextureUnit");
 
         //加载纹理
         textureId = TextureUtils.loadTexture(AppCore.getInstance().getContext(), R.drawable.main);
@@ -148,10 +150,11 @@ public class TextureRenderer implements GLSurfaceView.Renderer {
 
         GLES30.glEnableVertexAttribArray(1);
         GLES30.glVertexAttribPointer(1, 2, GLES30.GL_FLOAT, false, 0, mTexVertexBuffer);
-
+        // 选槽位
         GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
-        //绑定纹理
+        // 挂上纹理对象
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId);
+        GLES30.glUniform1i(uTextureUnit, 0);
 
         // 绘制
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, VERTEX_INDEX.length, GLES20.GL_UNSIGNED_SHORT, mVertexIndexBuffer);
