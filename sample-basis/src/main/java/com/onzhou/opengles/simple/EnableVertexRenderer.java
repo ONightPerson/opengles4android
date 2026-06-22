@@ -2,6 +2,7 @@ package com.onzhou.opengles.simple;
 
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 
 import com.onzhou.opengles.shader.R;
 import com.onzhou.opengles.utils.ResReadUtils;

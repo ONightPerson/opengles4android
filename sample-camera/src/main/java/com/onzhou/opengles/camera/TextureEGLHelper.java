@@ -25,7 +25,7 @@ import java.lang.annotation.RetentionPolicy;
  * @date: 2018-11-11
  * @description: 基于相机
  */
-public class TextureEGLHelper extends HandlerThread implements SurfaceTexture.OnFrameAvailableListener {
+public class TextureEGLHelper implements SurfaceTexture.OnFrameAvailableListener {
 
     private static final String TAG = "TextureEGLHelper";
 
@@ -100,7 +100,6 @@ public class TextureEGLHelper extends HandlerThread implements SurfaceTexture.On
     }
 
     public TextureEGLHelper() {
-        super("TextureEGLHelper");
     }
 
     public void initEgl(TextureView textureView, int textureId) {

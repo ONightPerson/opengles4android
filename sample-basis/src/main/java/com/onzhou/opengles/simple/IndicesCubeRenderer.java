@@ -2,6 +2,7 @@ package com.onzhou.opengles.simple;
 
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 
 import com.onzhou.opengles.shader.R;
 import com.onzhou.opengles.utils.ResReadUtils;
@@ -21,6 +22,7 @@ import javax.microedition.khronos.opengles.GL10;
  * @description: 基于索引法绘制立方体
  */
 public class IndicesCubeRenderer implements GLSurfaceView.Renderer {
+    private static final String TAG = "IndicesCubeRenderer";
 
     private final FloatBuffer vertexBuffer, colorBuffer;
 
@@ -134,6 +136,7 @@ public class IndicesCubeRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
+        Log.d(TAG, "onDrawFrame: ");
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
 
         GLES30.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_SHORT, indicesBuffer);

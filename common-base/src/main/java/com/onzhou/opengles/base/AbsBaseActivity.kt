@@ -1,12 +1,18 @@
-package com.onzhou.opengles.base;
+package com.onzhou.opengles.base
 
-
-import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.gyf.immersionbar.BarHide
+import com.gyf.immersionbar.ktx.immersionBar
 
 /**
- * @anchor: andy
- * @date: 2018-11-02
- * @description:
+ * Created by liubaozhu on 2026/6/22.
  */
-public abstract class AbsBaseActivity extends AppCompatActivity {
+open class AbsBaseActivity: AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        immersionBar {
+            hideBar(BarHide.FLAG_HIDE_BAR)
+        }
+    }
 }

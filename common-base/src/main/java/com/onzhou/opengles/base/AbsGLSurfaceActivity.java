@@ -31,4 +31,15 @@ public abstract class AbsGLSurfaceActivity extends AbsBaseActivity {
         mGLSurfaceView.setRenderer(renderer);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mGLSurfaceView.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mGLSurfaceView.onResume();
+    }
 }
