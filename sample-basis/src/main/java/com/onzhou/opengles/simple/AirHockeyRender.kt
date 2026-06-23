@@ -45,6 +45,13 @@ class AirHockeyRender : GLSurfaceView.Renderer {
         -0.5f, -0.55f,
         0.5f, -0.55f,
         0.5f, -0.5f,
+
+        -0.5f, 0.5f,
+        0.5f, 0.55f,
+        -0.5f, 0.55f,
+        -0.5f, 0.5f,
+        0.5f, 0.5f,
+        0.5f, 0.55f,
     )
 
     private val vertexBuffer: FloatBuffer =
@@ -115,9 +122,13 @@ class AirHockeyRender : GLSurfaceView.Renderer {
         GLES30.glDrawArrays(GLES30.GL_POINTS, 8, 1)
         GLES30.glUniform4f(uColorLocation, 0f, 1f, 0f, 1f)
         GLES30.glDrawArrays(GLES30.GL_POINTS, 9, 1)
+        // 绘制冰球
         GLES30.glUniform4f(uColorLocation, 1f, 1f, 0f, 1f)
         GLES30.glDrawArrays(GLES30.GL_POINTS, 10, 1)
+        // 绘制边框
         GLES30.glUniform4f(uColorLocation, 0f, 1f, 1f, 1f)
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 11, 6)
+        GLES30.glUniform4f(uColorLocation, 1f, 0.2f, 1f, 1f)
+        GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 17, 6)
     }
 }
