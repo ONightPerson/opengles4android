@@ -2,16 +2,13 @@ package com.onzhou.opengles.simple;
 
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
-import android.util.Log;
 
 import com.onzhou.opengles.shader.R;
-import com.onzhou.opengles.utils.ResReadUtils;
+import com.onzhou.opengles.utils.ShaderReaderUtil;
 import com.onzhou.opengles.utils.ShaderUtils;
 
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -49,8 +46,8 @@ public class MapBufferRenderer implements GLSurfaceView.Renderer {
         //设置背景颜色
         GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
         //编译
-        final int vertexShaderId = ShaderUtils.compileVertexShader(ResReadUtils.readResource(R.raw.vertex_map_buffer_shader));
-        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ResReadUtils.readResource(R.raw.fragment_map_buffer_shader));
+        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.vertex_map_buffer_shader));
+        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.fragment_map_buffer_shader));
         //鏈接程序片段
         mProgram = ShaderUtils.linkProgram(vertexShaderId, fragmentShaderId);
 

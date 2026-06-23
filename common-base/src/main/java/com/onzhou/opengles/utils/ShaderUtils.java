@@ -1,15 +1,10 @@
 package com.onzhou.opengles.utils;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.opengl.GLES30;
-
-import com.onzhou.opengles.core.AppCore;
+import android.util.Log;
 
 /**
- * @anchor: andy
- * @date: 2018-09-13
- * @description:
+ * gl + 操作名 + [对象类型] + 后缀
  */
 public class ShaderUtils {
 
@@ -44,17 +39,20 @@ public class ShaderUtils {
      * @return
      */
     private static int compileShader(int type, String shaderCode) {
-        //创建一个着色器
+        // 创建一个着色器
         final int shaderId = GLES30.glCreateShader(type);
         if (shaderId != 0) {
+            // 上传源码，告诉OpenGL读入该源码，且与着色器对象关联
             GLES30.glShaderSource(shaderId, shaderCode);
+            // 编译该源码
             GLES30.glCompileShader(shaderId);
             //检测状态
             final int[] compileStatus = new int[1];
+            // glGetShaderiv iv表示整型向量
             GLES30.glGetShaderiv(shaderId, GLES30.GL_COMPILE_STATUS, compileStatus, 0);
             if (compileStatus[0] == 0) {
                 String logInfo = GLES30.glGetShaderInfoLog(shaderId);
-                System.err.println(logInfo);
+                Log.i(TAG, "compileShader fail: " + logInfo);
                 //创建失败
                 GLES30.glDeleteShader(shaderId);
                 return 0;
@@ -80,7 +78,7 @@ public class ShaderUtils {
             GLES30.glAttachShader(programId, vertexShaderId);
             //将片元着色器加入到程序中
             GLES30.glAttachShader(programId, fragmentShaderId);
-            //链接着色器程序
+            // 链接着色器程序
             GLES30.glLinkProgram(programId);
             final int[] linkStatus = new int[1];
 

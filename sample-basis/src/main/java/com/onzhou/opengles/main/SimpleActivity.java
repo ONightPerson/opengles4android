@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.opengl.GLSurfaceView;
 
 import com.onzhou.opengles.base.AbsGLSurfaceActivity;
-import com.onzhou.opengles.simple.EmptyRender;
+import com.onzhou.opengles.simple.AirHockeyRender;
 
 /**
  * @anchor: andy
@@ -21,6 +21,6 @@ public class SimpleActivity extends AbsGLSurfaceActivity {
 
     @Override
     protected GLSurfaceView.Renderer bindRenderer() {
-        return new EmptyRender();
+        return new AirHockeyRender();
     }
 }

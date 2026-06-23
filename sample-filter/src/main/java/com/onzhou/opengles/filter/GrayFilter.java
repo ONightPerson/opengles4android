@@ -2,7 +2,7 @@ package com.onzhou.opengles.filter;
 
 import android.opengl.GLES30;
 
-import com.onzhou.opengles.utils.ResReadUtils;
+import com.onzhou.opengles.utils.ShaderReaderUtil;
 
 /**
  * @anchor: andy
@@ -16,7 +16,7 @@ public class GrayFilter extends BaseFilter {
     private float[] filterValue = new float[]{0.299f, 0.587f, 0.114f};
 
     public GrayFilter() {
-        super(ResReadUtils.readResource(R.raw.gray_filter_vertex_shader), ResReadUtils.readResource(R.raw.gray_filter_fragment_shader));
+        super(ShaderReaderUtil.INSTANCE.readResource(R.raw.gray_filter_vertex_shader), ShaderReaderUtil.INSTANCE.readResource(R.raw.gray_filter_fragment_shader));
     }
 
     @Override

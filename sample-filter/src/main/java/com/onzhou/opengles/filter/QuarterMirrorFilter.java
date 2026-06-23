@@ -1,8 +1,6 @@
 package com.onzhou.opengles.filter;
 
-import android.opengl.GLES30;
-
-import com.onzhou.opengles.utils.ResReadUtils;
+import com.onzhou.opengles.utils.ShaderReaderUtil;
 
 /**
  * @anchor: andy
@@ -12,7 +10,7 @@ import com.onzhou.opengles.utils.ResReadUtils;
 public class QuarterMirrorFilter extends BaseFilter {
 
     public QuarterMirrorFilter() {
-        super(ResReadUtils.readResource(R.raw.quarter_mirror_filter_vertex_shader), ResReadUtils.readResource(R.raw.quarter_mirror_filter_fragment_shader));
+        super(ShaderReaderUtil.INSTANCE.readResource(R.raw.quarter_mirror_filter_vertex_shader), ShaderReaderUtil.INSTANCE.readResource(R.raw.quarter_mirror_filter_fragment_shader));
     }
 
 
