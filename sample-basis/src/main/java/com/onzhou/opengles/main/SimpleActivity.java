@@ -5,8 +5,7 @@ import android.content.Intent;
 import android.opengl.GLSurfaceView;
 
 import com.onzhou.opengles.base.AbsGLSurfaceActivity;
-import com.onzhou.opengles.simple.AirHockeyOrthoRender;
-import com.onzhou.opengles.simple.AirHockeyRender2;
+import com.onzhou.opengles.simple.AirHockey3DRender;
 
 public class SimpleActivity extends AbsGLSurfaceActivity {
 
@@ -17,6 +16,6 @@ public class SimpleActivity extends AbsGLSurfaceActivity {
 
     @Override
     protected GLSurfaceView.Renderer bindRenderer() {
-        return new AirHockeyOrthoRender();
+        return new AirHockey3DRender();
     }
 }
