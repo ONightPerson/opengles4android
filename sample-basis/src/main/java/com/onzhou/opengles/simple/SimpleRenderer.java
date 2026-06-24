@@ -30,7 +30,7 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
     /**
      * 点的坐标
      */
-    private float[] vertexPoints = new float[]{
+    private final float[] vertexPoints = new float[]{
             0.0f, 0.5f, 0.0f,
             -0.5f, -0.5f, 0.0f,
             0.5f, -0.5f, 0.0f
@@ -39,7 +39,7 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
     /**
      * 顶点着色器
      */
-    private String vertextShader =
+    private final String vertextShader =
             "#version 300 es \n" +
                     "layout (location = 0) in vec4 vPosition;\n"
                     + "layout (location = 1) in vec4 aColor;\n"
@@ -50,7 +50,7 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
                     + "vColor = aColor;\n"
                     + "}\n";
 
-    private String fragmentShader =
+    private final String fragmentShader =
             "#version 300 es \n" +
                     "precision mediump float;\n"
                     + "in vec4 vColor;\n"
@@ -59,7 +59,7 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
                     + "fragColor = vColor; \n"
                     + "}\n";
 
-    private float color[] = {
+    private final float[] color = {
             0.0f, 1.0f, 0.0f, 1.0f,
             1.0f, 0.0f, 0.0f, 1.0f,
             0.0f, 0.0f, 1.0f, 1.0f

@@ -36,7 +36,7 @@ public class VertexBufferRenderer implements GLSurfaceView.Renderer {
     /**
      * 点的坐标
      */
-    private float[] vertexPoints = new float[]{
+    private final float[] vertexPoints = new float[]{
             0.0f, 0.5f, 0.0f,
             -0.5f, -0.5f, 0.0f,
             0.5f, -0.5f, 0.0f
@@ -45,7 +45,7 @@ public class VertexBufferRenderer implements GLSurfaceView.Renderer {
     /**
      * 缓冲数组
      */
-    private int[] vboIds = new int[1];
+    private final int[] vboIds = new int[1];
 
     public VertexBufferRenderer() {
         //分配内存空间,每个浮点型占4字节空间
@@ -62,8 +62,8 @@ public class VertexBufferRenderer implements GLSurfaceView.Renderer {
         //设置背景颜色
         GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
         //编译
-        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.vertex_buffer_shader));
-        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.fragment_buffer_shader));
+        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.readResource(R.raw.vertex_buffer_shader));
+        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.readResource(R.raw.fragment_buffer_shader));
         //鏈接程序片段
         mProgram = ShaderUtils.linkProgram(vertexShaderId, fragmentShaderId);
 

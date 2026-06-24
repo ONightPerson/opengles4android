@@ -50,7 +50,7 @@ public class VertexPointerRenderer implements GLSurfaceView.Renderer {
     /**
      * 点的坐标
      */
-    private float[] vertexPoints = new float[]{
+    private final float[] vertexPoints = new float[]{
             //前两个为坐标,后三个为颜色
             0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
             -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
@@ -78,8 +78,8 @@ public class VertexPointerRenderer implements GLSurfaceView.Renderer {
         //设置背景颜色
         GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
         //编译
-        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.vertex_pointer_shader));
-        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.fragment_pointer_shader));
+        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.readResource(R.raw.vertex_pointer_shader));
+        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.readResource(R.raw.fragment_pointer_shader));
         //鏈接程序片段
         mProgram = ShaderUtils.linkProgram(vertexShaderId, fragmentShaderId);
         //使用程序片段

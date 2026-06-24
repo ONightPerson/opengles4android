@@ -37,7 +37,7 @@ public class IndicesCubeRenderer implements GLSurfaceView.Renderer {
     /**
      * 点的坐标
      */
-    private float[] vertexPoints = new float[]{
+    private final float[] vertexPoints = new float[]{
             //正面矩形
             0.25f, 0.25f, 0.0f,  //V0
             -0.75f, 0.25f, 0.0f, //V1
@@ -54,7 +54,7 @@ public class IndicesCubeRenderer implements GLSurfaceView.Renderer {
     /**
      * 定义索引
      */
-    private short[] indices = {
+    private final short[] indices = {
             //背面
             5, 6, 7, 5, 7, 4,
             //左侧
@@ -70,7 +70,7 @@ public class IndicesCubeRenderer implements GLSurfaceView.Renderer {
     };
 
     //立方体的顶点颜色
-    private float[] colors = {
+    private final float[] colors = {
             0.3f, 0.4f, 0.5f, 1f,   //V0
             0.3f, 0.4f, 0.5f, 1f,   //V1
             0.3f, 0.4f, 0.5f, 1f,   //V2

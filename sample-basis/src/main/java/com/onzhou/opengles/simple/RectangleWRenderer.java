@@ -38,7 +38,7 @@ public class RectangleWRenderer implements GLSurfaceView.Renderer {
      * 点的坐标
      * (X, Y, Z, W, R, G, B)
      */
-    private float[] vertexPoints = new float[]{
+    private final float[] vertexPoints = new float[]{
             0.0f, 0.0f, 0.0f, 1.5f, 1.0f, 1.0f, 1.0f,
             -0.5f, -0.6f, 0.0f, 1f, 1.0f, 1.0f, 1.0f,
             0.5f, -0.6f, 0.0f, 1f, 1.0f, 1.0f, 1.0f,
@@ -70,8 +70,8 @@ public class RectangleWRenderer implements GLSurfaceView.Renderer {
         GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
 
         //编译
-        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.vertex_w_shader));
-        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.fragment_w_shader));
+        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.readResource(R.raw.vertex_w_shader));
+        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.readResource(R.raw.fragment_w_shader));
         //鏈接程序片段
         mProgram = ShaderUtils.linkProgram(vertexShaderId, fragmentShaderId);
         //在OpenGLES环境中使用程序片段

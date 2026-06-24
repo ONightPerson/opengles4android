@@ -32,7 +32,7 @@ public class ColorCubeRenderer implements GLSurfaceView.Renderer {
     /**
      * 点的坐标
      */
-    private float[] vertexPoints = new float[]{
+    private final float[] vertexPoints = new float[]{
             //背面矩形
             0.75f, 0.75f, 0.0f, //V5
             -0.25f, 0.75f, 0.0f, //V6
@@ -84,7 +84,7 @@ public class ColorCubeRenderer implements GLSurfaceView.Renderer {
 
 
     //立方体的顶点颜色
-    private float[] colors = {
+    private final float[] colors = {
             //背面矩形颜色
             1f, 0f, 1f, 1f,
             1f, 0f, 1f, 1f,
@@ -157,8 +157,8 @@ public class ColorCubeRenderer implements GLSurfaceView.Renderer {
         //设置背景颜色
         GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
         //编译
-        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.vertex_colorcube_shader));
-        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.fragment_colorcube_shader));
+        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.readResource(R.raw.vertex_colorcube_shader));
+        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.readResource(R.raw.fragment_colorcube_shader));
         //链接程序片段
         mProgram = ShaderUtils.linkProgram(vertexShaderId, fragmentShaderId);
         //使用程序片段

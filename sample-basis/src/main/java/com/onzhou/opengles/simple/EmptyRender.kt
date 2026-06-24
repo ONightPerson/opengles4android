@@ -20,7 +20,7 @@ class EmptyRender : GLSurfaceView.Renderer {
         config: EGLConfig?
     ) {
         Log.i(TAG, "onSurfaceCreated: gl: $gl, config: $config")
-        GLES30.glClearColor(1f, 0f, 0f, 1f);
+        GLES30.glClearColor(1f, 0f, 0f, 1f)
     }
 
     override fun onSurfaceChanged(
