@@ -63,23 +63,23 @@ const GLfloat TRIANGLE_VERTICES[] = {0.0f, 0.5f, 0.0f,
 
 const char VERTEX_SHADER[] =
         "#version 300 es \n"
-                "layout (location = 0) in vec4 vPosition;\n"
-                "layout (location = 1) in vec4 aColor;\n"
-                "out vec4 vColor;\n"
-                "void main() { \n"
-                "gl_Position  = vPosition;\n"
-                "gl_PointSize = 10.0;\n"
-                "vColor = aColor;\n"
-                "}\n";
+        "layout (location = 0) in vec4 vPosition;\n"
+        "layout (location = 1) in vec4 aColor;\n"
+        "out vec4 vColor;\n"
+        "void main() { \n"
+        "gl_Position  = vPosition;\n"
+        "gl_PointSize = 10.0;\n"
+        "vColor = aColor;\n"
+        "}\n";
 
 const char FRAGMENT_SHADER[] =
         "#version 300 es \n"
-                "precision mediump float;\n"
-                "in vec4 vColor;\n"
-                "out vec4 fragColor;\n"
-                "void main() { \n"
-                "fragColor = vColor;\n"
-                "}\n";
+        "precision mediump float;\n"
+        "in vec4 vColor;\n"
+        "out vec4 fragColor;\n"
+        "void main() { \n"
+        "fragColor = vColor;\n"
+        "}\n";
 
 float color[] = {
         0.0f, 1.0f, 0.0f, 1.0f,

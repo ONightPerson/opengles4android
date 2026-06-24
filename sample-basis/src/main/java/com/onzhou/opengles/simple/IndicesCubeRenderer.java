@@ -112,8 +112,8 @@ public class IndicesCubeRenderer implements GLSurfaceView.Renderer {
         //设置背景颜色
         GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
         //编译
-        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.vertex_colorcube_shader));
-        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.fragment_colorcube_shader));
+        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.readResource(R.raw.vertex_colorcube_shader));
+        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.readResource(R.raw.fragment_colorcube_shader));
         //链接程序片段
         mProgram = ShaderUtils.linkProgram(vertexShaderId, fragmentShaderId);
         //使用程序片段

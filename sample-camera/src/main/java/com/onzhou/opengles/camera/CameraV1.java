@@ -3,7 +3,6 @@ package com.onzhou.opengles.camera;
 import android.app.Activity;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
-import android.util.Log;
 import android.view.Surface;
 
 import com.onzhou.opengles.api.ICamera;

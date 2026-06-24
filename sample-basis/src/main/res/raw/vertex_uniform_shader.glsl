@@ -6,7 +6,7 @@ layout (location = 0) in vec4 vPosition;
 layout (location = 1) in vec4 aColor;
 out vec4 vColor;
 void main() {
-     gl_Position  = mMatrix4 * vPosition;
-     gl_PointSize = 10.0;
-     vColor = aColor;
+    gl_Position = mMatrix4 * vPosition;
+    gl_PointSize = 10.0;
+    vColor = aColor;
 }

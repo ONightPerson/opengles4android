@@ -42,7 +42,7 @@ public class HollowCubeSurfaceView extends GLSurfaceView {
                 mRenderer.mAngleX += dy * 0.5f;
                 mRenderer.mAngleY += dx * 0.5f;
                 requestRender();
-                
+
                 mPreviousX = x;
                 mPreviousY = y;
                 break;

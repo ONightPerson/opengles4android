@@ -6,5 +6,5 @@ in vec2 vTextureCoord;
 out vec4 vFragColor;
 void main()
 {
-  vFragColor = texture(uTextureSampler, vTextureCoord);
+    vFragColor = texture(uTextureSampler, vTextureCoord);
 }

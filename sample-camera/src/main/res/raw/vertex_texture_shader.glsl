@@ -7,6 +7,6 @@ uniform mat4 uTextureMatrix;
 out vec2 vTextureCoord;
 
 void main() {
-     gl_Position  = aPosition;
-     vTextureCoord = (uTextureMatrix * aTextureCoord).xy;
+    gl_Position = aPosition;
+    vTextureCoord = (uTextureMatrix * aTextureCoord).xy;
 }

@@ -97,6 +97,6 @@ public class VertexBufferRenderer implements GLSurfaceView.Renderer {
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 3);
 
         //8. 解绑VBO
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER,0);
+        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, 0);
     }
 }

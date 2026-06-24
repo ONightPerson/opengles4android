@@ -13,10 +13,10 @@ public class GrayFilter extends BaseFilter {
 
     private int aFilterLocation;
 
-    private float[] filterValue = new float[]{0.299f, 0.587f, 0.114f};
+    private final float[] filterValue = new float[]{0.299f, 0.587f, 0.114f};
 
     public GrayFilter() {
-        super(ShaderReaderUtil.INSTANCE.readResource(R.raw.gray_filter_vertex_shader), ShaderReaderUtil.INSTANCE.readResource(R.raw.gray_filter_fragment_shader));
+        super(ShaderReaderUtil.readResource(R.raw.gray_filter_vertex_shader), ShaderReaderUtil.readResource(R.raw.gray_filter_fragment_shader));
     }
 
     @Override

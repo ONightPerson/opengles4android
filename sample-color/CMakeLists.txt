@@ -10,12 +10,12 @@ add_definitions("-DDYNAMIC_ES3")
 set(OPENGL_LIB GLESv3)
 
 add_library(native-color
-           SHARED
-           src/main/cpp/native_color.cpp)
+        SHARED
+        src/main/cpp/native_color.cpp)
 
 target_link_libraries(native-color
-            ${OPENGL_LIB}
-            android
-            EGL
-            log
-            m)
+        ${OPENGL_LIB}
+        android
+        EGL
+        log
+        m)

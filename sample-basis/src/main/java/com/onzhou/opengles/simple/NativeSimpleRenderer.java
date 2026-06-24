@@ -1,13 +1,6 @@
 package com.onzhou.opengles.simple;
 
-import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
-
-import com.onzhou.opengles.utils.ShaderUtils;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

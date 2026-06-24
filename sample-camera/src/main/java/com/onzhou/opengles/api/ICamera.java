@@ -2,8 +2,6 @@ package com.onzhou.opengles.api;
 
 import android.graphics.SurfaceTexture;
 
-import java.io.IOException;
-
 /**
  * @anchor: andy
  * @date: 2018-11-12

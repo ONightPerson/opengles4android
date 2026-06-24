@@ -14,6 +14,7 @@ class EmptyRender : GLSurfaceView.Renderer {
     companion object {
         private const val TAG = "EmptyRender"
     }
+
     override fun onSurfaceCreated(
         gl: GL10?,
         config: EGLConfig?

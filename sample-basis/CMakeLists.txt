@@ -13,12 +13,12 @@ set(OPENGL_LIB GLESv3)
 
 
 add_library(native-simple
-           SHARED
-           src/main/cpp/native_simple.cpp)
+        SHARED
+        src/main/cpp/native_simple.cpp)
 
 target_link_libraries(native-simple
-            ${OPENGL_LIB}
-            android
-            EGL
-            log
-            m)
+        ${OPENGL_LIB}
+        android
+        EGL
+        log
+        m)

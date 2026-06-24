@@ -5,10 +5,15 @@ import android.opengl.GLES20.GL_POINTS
 import android.opengl.GLES20.GL_TRIANGLE_FAN
 import android.opengl.GLES20.glClear
 import android.opengl.GLES20.glDrawArrays
+import android.opengl.GLES20.glUniformMatrix4fv
+import android.opengl.GLES20.glViewport
 import android.opengl.GLES30
 import android.opengl.GLSurfaceView
-import android.opengl.Matrix
-import android.util.Log
+import android.opengl.Matrix.multiplyMM
+import android.opengl.Matrix.perspectiveM
+import android.opengl.Matrix.rotateM
+import android.opengl.Matrix.setIdentityM
+import android.opengl.Matrix.translateM
 import com.onzhou.opengles.shader.R
 import com.onzhou.opengles.utils.ShaderReaderUtil.readResource
 import com.onzhou.opengles.utils.ShaderUtils
@@ -21,19 +26,17 @@ import javax.microedition.khronos.opengles.GL10
 /**
  * Created by liubaozhu on 2026/6/23.
  */
-class AirHockeyOrthoRender : GLSurfaceView.Renderer {
+class AirHockeyTextureRender : GLSurfaceView.Renderer {
 
     companion object {
-        private const val TAG = "AirHockeyOrthoRender"
         private const val BYTES_PER_FLOAT = 4
         private const val POS_COMPONENT_COUNT = 2
         private const val COLOR_COMPONENT_COUNT = 3
         private const val STRIDE = (POS_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * BYTES_PER_FLOAT
-        private const val ORTHO_MATRIX = "orthoMatrix"
+        private const val PROJECT_MATRIX = "projectionMatrix"
     }
 
-    private var orthoMatrixLocation: Int = 0
-
+    private var projectionMatrixLocation: Int = 0
 
     private val vertexPoints: FloatArray = floatArrayOf(
         // table vertex
@@ -59,8 +62,8 @@ class AirHockeyOrthoRender : GLSurfaceView.Renderer {
         ByteBuffer.allocateDirect(vertexPoints.size * BYTES_PER_FLOAT).order(
             ByteOrder.nativeOrder()
         ).asFloatBuffer()
-
-    private var orthoMatrix: FloatArray = FloatArray(16)
+    private var projectionM = FloatArray(16)
+    private var modelM = FloatArray(16)
 
     constructor() {
         vertexBuffer.put(vertexPoints)
@@ -78,7 +81,7 @@ class AirHockeyOrthoRender : GLSurfaceView.Renderer {
 
         //编译
         val vertexShaderId =
-            ShaderUtils.compileVertexShader(readResource(R.raw.vertex_air_hockey))
+            ShaderUtils.compileVertexShader(readResource(R.raw.vertex_air_hockey_3d))
         val fragmentShaderId =
             ShaderUtils.compileFragmentShader(readResource(R.raw.fragment_air_hockey))
 
@@ -107,9 +110,7 @@ class AirHockeyOrthoRender : GLSurfaceView.Renderer {
             vertexBuffer
         )
         GLES30.glEnableVertexAttribArray(1)
-        orthoMatrixLocation = GLES30.glGetUniformLocation(program, ORTHO_MATRIX)
-        Log.i(TAG, "onSurfaceCreated----orthoMatrixLocation: $orthoMatrixLocation ")
-
+        projectionMatrixLocation = GLES30.glGetUniformLocation(program, PROJECT_MATRIX)
     }
 
     override fun onSurfaceChanged(
@@ -117,36 +118,20 @@ class AirHockeyOrthoRender : GLSurfaceView.Renderer {
         width: Int,
         height: Int
     ) {
-        GLES30.glViewport(0, 0, width, height)
-        if (width > height) {
-            Matrix.orthoM(
-                orthoMatrix,
-                0,
-                -(width.toFloat()) / height,
-                width.toFloat() / height,
-                -1f,
-                1f,
-                -1f,
-                1f
-            )
-        } else {
-            Matrix.orthoM(
-                orthoMatrix,
-                0,
-                -1f,
-                1f,
-                -height.toFloat() / width,
-                height.toFloat() / width,
-                -1f,
-                1f
-            )
-        }
+        glViewport(0, 0, width, height)
+        perspectiveM(projectionM, 0, 40f, width.toFloat() / height, 1f, 10f)
+        setIdentityM(modelM, 0)
+        translateM(modelM, 0, 0f, 0f, -3f)
+        rotateM(modelM, 0, -60f, 1f, 0f, 0f)
 
+        val temp = FloatArray(16)
+        multiplyMM(temp, 0, projectionM, 0, modelM, 0)
+        System.arraycopy(temp, 0, projectionM, 0, projectionM.size)
     }
 
     override fun onDrawFrame(gl: GL10?) {
         glClear(GLES30.GL_COLOR_BUFFER_BIT)
-        GLES30.glUniformMatrix4fv(orthoMatrixLocation, 1, false, orthoMatrix, 0)
+        glUniformMatrix4fv(projectionMatrixLocation, 1, false, projectionM, 0)
         // 绘制桌面
         glDrawArrays(GL_TRIANGLE_FAN, 0, 10)
         // 绘制分割线

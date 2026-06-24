@@ -19,19 +19,19 @@ public class HollowCubeRenderer implements GLSurfaceView.Renderer {
 
     private static final String VERTEX_SHADER =
             "#version 300 es\n" +
-            "layout (location = 0) in vec4 aPosition;\n" +
-            "uniform mat4 uMVPMatrix;\n" +
-            "void main() {\n" +
-            "  gl_Position = uMVPMatrix * aPosition;\n" +
-            "}";
+                    "layout (location = 0) in vec4 aPosition;\n" +
+                    "uniform mat4 uMVPMatrix;\n" +
+                    "void main() {\n" +
+                    "  gl_Position = uMVPMatrix * aPosition;\n" +
+                    "}";
 
     private static final String FRAGMENT_SHADER =
             "#version 300 es\n" +
-            "precision mediump float;\n" +
-            "out vec4 fragColor;\n" +
-            "void main() {\n" +
-            "  fragColor = vec4(1.0, 1.0, 1.0, 1.0);\n" +
-            "}";
+                    "precision mediump float;\n" +
+                    "out vec4 fragColor;\n" +
+                    "void main() {\n" +
+                    "  fragColor = vec4(1.0, 1.0, 1.0, 1.0);\n" +
+                    "}";
 
     private int mProgram;
     private int uMVPMatrixLocation;
@@ -115,8 +115,12 @@ public class HollowCubeRenderer implements GLSurfaceView.Renderer {
     }
 
     private void addEdge(List<Float> vertices, float x1, float y1, float z1, float x2, float y2, float z2) {
-        vertices.add(x1); vertices.add(y1); vertices.add(z1);
-        vertices.add(x2); vertices.add(y2); vertices.add(z2);
+        vertices.add(x1);
+        vertices.add(y1);
+        vertices.add(z1);
+        vertices.add(x2);
+        vertices.add(y2);
+        vertices.add(z2);
     }
 
     @Override

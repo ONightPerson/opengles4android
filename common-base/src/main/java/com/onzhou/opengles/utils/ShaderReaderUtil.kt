@@ -9,6 +9,7 @@ import com.onzhou.opengles.core.AppCore
 object ShaderReaderUtil {
     private const val TAG = "ShaderReaderUtil"
 
+    @JvmStatic
     fun readResource(resId: Int): String {
         val builder = StringBuilder()
         try {
