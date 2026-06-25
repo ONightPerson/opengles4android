@@ -6,7 +6,7 @@ import com.onzhou.opengles.core.AppCore
 /**
  * Created by liubaozhu on 2026/6/23.
  */
-object ShaderReaderUtil {
+object ResReader {
     private const val TAG = "ShaderReaderUtil"
 
     @JvmStatic

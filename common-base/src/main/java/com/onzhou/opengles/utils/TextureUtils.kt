@@ -22,10 +22,11 @@ object TextureUtils {
             return 0
         }
         val options = BitmapFactory.Options()
+        // inScaled为false，告诉Android我们需要原始图像数据，而不是缩放后的版本
         options.inScaled = false
-        val bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, options)
+        val bitmap = BitmapFactory.decodeResource(context.resources, resourceId, options)
         if (bitmap == null) {
-            Log.e(TAG, "Resource ID " + resourceId + " could not be decoded.")
+            Log.e(TAG, "Resource ID $resourceId could not be decoded.")
             GLES30.glDeleteTextures(1, textureIds, 0)
             return 0
         }

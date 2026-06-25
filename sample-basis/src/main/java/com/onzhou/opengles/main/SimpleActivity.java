@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.opengl.GLSurfaceView;
 
 import com.onzhou.opengles.base.AbsGLSurfaceActivity;
-import com.onzhou.opengles.simple.AirHockeyTextureRender;
+import com.onzhou.opengles.airhockey.render.AirHockeyTextureRender;
 
 public class SimpleActivity extends AbsGLSurfaceActivity {
 

@@ -10,7 +10,7 @@ import android.opengl.GLSurfaceView;
 import android.view.Surface;
 
 import com.onzhou.opengles.camera.R;
-import com.onzhou.opengles.utils.ShaderReaderUtil;
+import com.onzhou.opengles.utils.ResReader;
 import com.onzhou.opengles.utils.ShaderUtils;
 
 import java.io.IOException;
@@ -189,8 +189,8 @@ public class CameraSurfaceRenderer implements GLSurfaceView.Renderer {
         //设置背景颜色
         GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
         //编译
-        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.vertex_camera_shader));
-        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.fragment_camera_shader));
+        final int vertexShaderId = ShaderUtils.compileVertexShader(ResReader.INSTANCE.readResource(R.raw.vertex_camera_shader));
+        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ResReader.INSTANCE.readResource(R.raw.fragment_camera_shader));
         //链接程序片段
         mProgram = ShaderUtils.linkProgram(vertexShaderId, fragmentShaderId);
 

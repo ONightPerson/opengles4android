@@ -6,7 +6,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 
 import com.onzhou.opengles.core.AppCore;
-import com.onzhou.opengles.utils.ShaderReaderUtil;
+import com.onzhou.opengles.utils.ResReader;
 import com.onzhou.opengles.utils.ShaderUtils;
 import com.onzhou.opengles.utils.TextureUtils;
 
@@ -102,8 +102,8 @@ public class TextureRenderer implements GLSurfaceView.Renderer {
         //设置背景颜色
         GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
         //编译
-        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.vertex_texture_shader));
-        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.fragment_texture_shader));
+        final int vertexShaderId = ShaderUtils.compileVertexShader(ResReader.INSTANCE.readResource(R.raw.vertex_texture_shader));
+        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ResReader.INSTANCE.readResource(R.raw.fragment_texture_shader));
         //链接程序片段
         mProgram = ShaderUtils.linkProgram(vertexShaderId, fragmentShaderId);
 

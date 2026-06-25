@@ -10,7 +10,7 @@ import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import android.util.Log
 import com.onzhou.opengles.shader.R
-import com.onzhou.opengles.utils.ShaderReaderUtil.readResource
+import com.onzhou.opengles.utils.ResReader.readResource
 import com.onzhou.opengles.utils.ShaderUtils
 import java.nio.ByteBuffer
 import java.nio.ByteOrder

@@ -3,7 +3,7 @@ package com.onzhou.opengles.simple
 import android.opengl.GLES30
 import android.opengl.GLSurfaceView
 import com.onzhou.opengles.shader.R
-import com.onzhou.opengles.utils.ShaderReaderUtil
+import com.onzhou.opengles.utils.ResReader
 import com.onzhou.opengles.utils.ShaderUtils
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -51,9 +51,9 @@ class PointRenderer : GLSurfaceView.Renderer {
         GLES30.glClearColor(0.5f, 0.5f, 0.5f, 1.0f)
         // 编译
         val vertexShaderId =
-            ShaderUtils.compileVertexShader(ShaderReaderUtil.readResource(R.raw.vertex_point))
+            ShaderUtils.compileVertexShader(ResReader.readResource(R.raw.vertex_point))
         val fragmentShaderId =
-            ShaderUtils.compileFragmentShader(ShaderReaderUtil.readResource(R.raw.fragment_point))
+            ShaderUtils.compileFragmentShader(ResReader.readResource(R.raw.fragment_point))
         // 链接
         val programId = ShaderUtils.linkProgram(vertexShaderId, fragmentShaderId)
         // 使用

@@ -4,7 +4,7 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
 import com.onzhou.opengles.shader.R;
-import com.onzhou.opengles.utils.ShaderReaderUtil;
+import com.onzhou.opengles.utils.ResReader;
 import com.onzhou.opengles.utils.ShaderUtils;
 
 import java.nio.ByteBuffer;
@@ -70,8 +70,8 @@ public class RectangleWRenderer implements GLSurfaceView.Renderer {
         GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
 
         //编译
-        final int vertexShaderId = ShaderUtils.compileVertexShader(ShaderReaderUtil.readResource(R.raw.vertex_w_shader));
-        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ShaderReaderUtil.readResource(R.raw.fragment_w_shader));
+        final int vertexShaderId = ShaderUtils.compileVertexShader(ResReader.readResource(R.raw.vertex_w_shader));
+        final int fragmentShaderId = ShaderUtils.compileFragmentShader(ResReader.readResource(R.raw.fragment_w_shader));
         //鏈接程序片段
         mProgram = ShaderUtils.linkProgram(vertexShaderId, fragmentShaderId);
         //在OpenGLES环境中使用程序片段

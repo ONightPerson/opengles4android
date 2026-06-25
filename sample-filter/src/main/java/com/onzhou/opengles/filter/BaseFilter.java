@@ -6,7 +6,7 @@ import android.opengl.Matrix;
 
 import com.onzhou.opengles.core.AppCore;
 import com.onzhou.opengles.utils.LogUtils;
-import com.onzhou.opengles.utils.ShaderReaderUtil;
+import com.onzhou.opengles.utils.ResReader;
 import com.onzhou.opengles.utils.ShaderUtils;
 import com.onzhou.opengles.utils.TextureUtils;
 
@@ -87,7 +87,7 @@ public abstract class BaseFilter implements RendererFilter {
      * 加载默认的着色器
      */
     public BaseFilter() {
-        this(ShaderReaderUtil.INSTANCE.readResource(R.raw.no_filter_vertex_shader), ShaderReaderUtil.INSTANCE.readResource(R.raw.no_filter_fragment_shader));
+        this(ResReader.INSTANCE.readResource(R.raw.no_filter_vertex_shader), ResReader.INSTANCE.readResource(R.raw.no_filter_fragment_shader));
     }
 
     public BaseFilter(final String vertexShader, final String fragmentShader) {

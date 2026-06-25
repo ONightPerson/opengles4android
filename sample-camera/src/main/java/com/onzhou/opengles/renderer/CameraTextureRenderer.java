@@ -8,7 +8,7 @@ import android.opengl.GLES30;
 
 import com.onzhou.opengles.api.ITextureRenderer;
 import com.onzhou.opengles.camera.R;
-import com.onzhou.opengles.utils.ShaderReaderUtil;
+import com.onzhou.opengles.utils.ResReader;
 import com.onzhou.opengles.utils.ShaderUtils;
 
 import java.nio.ByteBuffer;
@@ -83,8 +83,8 @@ public class CameraTextureRenderer implements ITextureRenderer {
 
     @Override
     public void onSurfaceCreated() {
-        final int vertexShader = ShaderUtils.compileVertexShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.vertex_texture_shader));
-        final int fragmentShader = ShaderUtils.compileFragmentShader(ShaderReaderUtil.INSTANCE.readResource(R.raw.fragment_texture_shader));
+        final int vertexShader = ShaderUtils.compileVertexShader(ResReader.INSTANCE.readResource(R.raw.vertex_texture_shader));
+        final int fragmentShader = ShaderUtils.compileFragmentShader(ResReader.INSTANCE.readResource(R.raw.fragment_texture_shader));
         mShaderProgram = ShaderUtils.linkProgram(vertexShader, fragmentShader);
 
         aPositionLocation = GLES30.glGetAttribLocation(mShaderProgram, CameraTextureRenderer.POSITION_ATTRIBUTE);
