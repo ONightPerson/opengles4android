@@ -10,12 +10,7 @@ import com.onzhou.opengles.airhockey.program.ColorShaderProgram
 import com.onzhou.opengles.airhockey.program.TextureShaderProgram
 import com.onzhou.opengles.core.AppCore
 import com.onzhou.opengles.shader.R
-import com.onzhou.opengles.utils.ResReader
-import com.onzhou.opengles.utils.ShaderUtils
 import com.onzhou.opengles.utils.TextureUtils
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
