@@ -10,7 +10,10 @@ class TextureShaderProgram : ShaderProgram {
     private var matrixLocation: Int = 0
     private var textureUnitLocation: Int = 0
 
-    constructor() : super(R.raw.vertex_air_hockey_texture, R.raw.fragment_air_hockey_texture) {
+    constructor() : super(
+        R.raw.vertex_air_hockey_with_better_mallets_texture_shader,
+        R.raw.fragment_air_hockey_with_better_mallets_texture_shader
+    ) {
         matrixLocation = GLES30.glGetUniformLocation(program, PROJECT_MATRIX)
         textureUnitLocation = GLES30.glGetUniformLocation(program, TEXTURE_UNIT)
     }

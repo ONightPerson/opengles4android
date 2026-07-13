@@ -12,6 +12,7 @@ abstract class ShaderProgram {
         // uniform constants
         const val PROJECT_MATRIX = "matrix"
         const val TEXTURE_UNIT = "textureUnit"
+        const val U_COLOR = "uColor"
     }
 
     protected val program: Int
