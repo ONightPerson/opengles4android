@@ -38,9 +38,15 @@ public class HollowCubeSurfaceView extends GLSurfaceView {
             case MotionEvent.ACTION_MOVE:
                 float dx = x - mPreviousX;
                 float dy = y - mPreviousY;
+                if (mRenderer.mAngleX + dy * 0.5f > 90) {
+                    mRenderer.mAngleX = 90;
+                } else if (mRenderer.mAngleX + dy * 0.5f < -90) {
+                    mRenderer.mAngleX = -90;
+                } else {
+                    mRenderer.mAngleX += dy * 0.5f;
+                    mRenderer.mAngleY += dx * 0.5f;
+                }
 
-                mRenderer.mAngleX += dy * 0.5f;
-                mRenderer.mAngleY += dx * 0.5f;
                 requestRender();
 
                 mPreviousX = x;

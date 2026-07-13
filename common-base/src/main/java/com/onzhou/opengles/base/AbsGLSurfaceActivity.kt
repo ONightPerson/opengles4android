@@ -1,45 +1,41 @@
-package com.onzhou.opengles.base;
+package com.onzhou.opengles.base
 
-import android.opengl.GLSurfaceView;
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
+import android.annotation.SuppressLint
+import android.opengl.GLSurfaceView
+import android.os.Bundle
 
 /**
  * @anchor: andy
  * @date: 2018-11-02
  * @description:
  */
-public abstract class AbsGLSurfaceActivity extends AbsBaseActivity {
+abstract class AbsGLSurfaceActivity : AbsBaseActivity() {
+    private var mGLSurfaceView: GLSurfaceView? = null
 
-    private GLSurfaceView mGLSurfaceView;
+    protected abstract fun bindRenderer(): GLSurfaceView.Renderer?
 
-    protected abstract GLSurfaceView.Renderer bindRenderer();
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setupViews();
+    protected override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupViews()
     }
 
-    private void setupViews() {
-        mGLSurfaceView = new GLSurfaceView(this);
-        setContentView(mGLSurfaceView);
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupViews() {
+        mGLSurfaceView = GLSurfaceView(this)
+        setContentView(mGLSurfaceView)
         //设置版本
-        mGLSurfaceView.setEGLContextClientVersion(3);
-        GLSurfaceView.Renderer renderer = bindRenderer();
-        mGLSurfaceView.setRenderer(renderer);
+        mGLSurfaceView!!.setEGLContextClientVersion(3)
+        val renderer = bindRenderer()
+        mGLSurfaceView!!.setRenderer(renderer)
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mGLSurfaceView.onPause();
+    override fun onPause() {
+        super.onPause()
+        mGLSurfaceView!!.onPause()
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mGLSurfaceView.onResume();
+    override fun onResume() {
+        super.onResume()
+        mGLSurfaceView!!.onResume()
     }
 }

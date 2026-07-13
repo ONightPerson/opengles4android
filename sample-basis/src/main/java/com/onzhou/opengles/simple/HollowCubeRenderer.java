@@ -45,8 +45,8 @@ public class HollowCubeRenderer implements GLSurfaceView.Renderer {
     private final float[] mModelMatrix = new float[16];
     private final float[] mRotationMatrix = new float[16];
 
-    public volatile float mAngleX;
-    public volatile float mAngleY;
+    public float mAngleX;
+    public float mAngleY;
 
     public HollowCubeRenderer() {
         initGeometry();
