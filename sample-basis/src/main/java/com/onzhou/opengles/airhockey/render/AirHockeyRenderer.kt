@@ -55,8 +55,9 @@ class AirHockeyRenderer(private val context: Context) : GLSurfaceView.Renderer {
     override fun onSurfaceChanged(glUnused: GL10?, width: Int, height: Int) {
         // Set the OpenGL viewport to fill the entire surface.
         GLES20.glViewport(0, 0, width, height)
-        MatrixHelper.perspectiveM(
+        Matrix.perspectiveM(
             projectionMatrix,
+            0,
             45f,
             width.toFloat() / height.toFloat(),
             1f,
