@@ -51,8 +51,6 @@ class AirHockeyRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private val modelViewProjectionMatrix = FloatArray(16)
     private val invertedViewProjectionMatrix = FloatArray(16)
 
-
-
     private lateinit var table: Table
     private lateinit var mallet: Mallet
     private lateinit var puck: Puck
