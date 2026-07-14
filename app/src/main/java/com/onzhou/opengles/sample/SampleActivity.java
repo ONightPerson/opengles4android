@@ -13,6 +13,7 @@ import com.onzhou.opengles.main.FilterActivity;
 import com.onzhou.opengles.main.NativeWindowActivity;
 import com.onzhou.opengles.main.SimpleActivity;
 import com.onzhou.opengles.main.TextureActivity;
+import com.onzhou.opengles.particles.ParticlesActivity;
 
 
 /**
@@ -34,6 +35,10 @@ public class SampleActivity extends AbsBaseActivity {
 
     public void onHollowCubeClick(View view) {
         com.onzhou.opengles.main.HollowCubeActivity.intentStart(this);
+    }
+
+    public void onParticlesClick(View view) {
+        ParticlesActivity.intentStart(this);
     }
 
     public void onColorClick(View view) {

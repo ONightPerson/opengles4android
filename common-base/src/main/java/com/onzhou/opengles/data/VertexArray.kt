@@ -34,4 +34,10 @@ class VertexArray {
         glEnableVertexAttribArray(location)
         buffer.position(0)
     }
+
+    fun updateBuffer(vertexData: FloatArray, start: Int, count: Int) {
+        buffer.position(start)
+        buffer.put(vertexData, start, count)
+        buffer.position(0)
+    }
 }
