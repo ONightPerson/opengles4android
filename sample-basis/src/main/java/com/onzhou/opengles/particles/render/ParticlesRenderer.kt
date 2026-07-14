@@ -23,7 +23,7 @@ import javax.microedition.khronos.opengles.GL10
  * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/kbogla for more book information.
  */
-class ParticlesRenderer(private val context: Context?) : GLSurfaceView.Renderer {
+class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private val projectionMatrix = FloatArray(16)
     private val viewMatrix = FloatArray(16)
     private val viewProjectionMatrix = FloatArray(16)

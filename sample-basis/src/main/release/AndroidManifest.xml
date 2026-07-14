@@ -16,8 +16,6 @@
         <activity android:name="com.onzhou.opengles.main.SimpleActivity" />
         <activity android:name="com.onzhou.opengles.particles.ParticlesActivity" />
         <activity android:name="com.onzhou.opengles.main.HollowCubeActivity" />
-
+        <activity android:name="com.onzhou.opengles.skybox.SkyBoxActivity" />
     </application>
-
-
 </manifest>

@@ -8,14 +8,9 @@
  */
 package com.onzhou.opengles.particles
 
-import android.app.Activity
-import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.opengl.GLSurfaceView
-import android.os.Build
-import android.os.Bundle
-import android.widget.Toast
 import com.onzhou.opengles.base.AbsGLSurfaceActivity
 import com.onzhou.opengles.particles.render.ParticlesRenderer
 
