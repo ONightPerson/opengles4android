@@ -3,6 +3,7 @@ package com.onzhou.opengles.base
 import android.annotation.SuppressLint
 import android.opengl.GLSurfaceView
 import android.os.Bundle
+import android.view.MotionEvent
 
 /**
  * @anchor: andy
@@ -10,11 +11,12 @@ import android.os.Bundle
  * @description:
  */
 abstract class AbsGLSurfaceActivity : AbsBaseActivity() {
-    private var mGLSurfaceView: GLSurfaceView? = null
+    protected lateinit var mGLSurfaceView: GLSurfaceView
+    protected lateinit var renderer: GLSurfaceView.Renderer
 
-    protected abstract fun bindRenderer(): GLSurfaceView.Renderer?
+    protected abstract fun bindRenderer(): GLSurfaceView.Renderer
 
-    protected override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupViews()
     }
@@ -24,18 +26,18 @@ abstract class AbsGLSurfaceActivity : AbsBaseActivity() {
         mGLSurfaceView = GLSurfaceView(this)
         setContentView(mGLSurfaceView)
         //设置版本
-        mGLSurfaceView!!.setEGLContextClientVersion(3)
-        val renderer = bindRenderer()
-        mGLSurfaceView!!.setRenderer(renderer)
+        mGLSurfaceView.setEGLContextClientVersion(3)
+        renderer = bindRenderer()
+        mGLSurfaceView.setRenderer(renderer)
     }
 
     override fun onPause() {
         super.onPause()
-        mGLSurfaceView!!.onPause()
+        mGLSurfaceView.onPause()
     }
 
     override fun onResume() {
         super.onResume()
-        mGLSurfaceView!!.onResume()
+        mGLSurfaceView.onResume()
     }
 }
