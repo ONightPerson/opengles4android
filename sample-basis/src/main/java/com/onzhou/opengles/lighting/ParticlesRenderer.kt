@@ -6,7 +6,7 @@
  * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/kbogla for more book information.
  */
-package com.onzhou.opengles.heightmap
+package com.onzhou.opengles.lighting
 
 import android.content.Context
 import android.graphics.Color
@@ -15,15 +15,14 @@ import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import androidx.core.content.res.ResourcesCompat
-import com.onzhou.opengles.airhockey.util.TextureHelper.loadCubeMap
-import com.onzhou.opengles.airhockey.util.TextureHelper.loadTexture
-import com.onzhou.opengles.heightmap.objects.Heightmap
-import com.onzhou.opengles.heightmap.objects.ParticleShooter
-import com.onzhou.opengles.heightmap.objects.ParticleSystem
-import com.onzhou.opengles.heightmap.objects.Skybox
-import com.onzhou.opengles.heightmap.programs.HeightmapShaderProgram
-import com.onzhou.opengles.heightmap.programs.ParticleShaderProgram
-import com.onzhou.opengles.heightmap.programs.SkyboxShaderProgram
+import com.onzhou.opengles.airhockey.util.TextureHelper
+import com.onzhou.opengles.lighting.objects.Heightmap
+import com.onzhou.opengles.lighting.objects.ParticleShooter
+import com.onzhou.opengles.lighting.objects.ParticleSystem
+import com.onzhou.opengles.lighting.objects.Skybox
+import com.onzhou.opengles.lighting.programs.LightingShaderProgram
+import com.onzhou.opengles.lighting.programs.ParticleShaderProgram
+import com.onzhou.opengles.lighting.programs.SkyboxShaderProgram
 import com.onzhou.opengles.model.Point
 import com.onzhou.opengles.model.Vector
 import com.onzhou.opengles.shader.R
@@ -37,9 +36,32 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private val projectionMatrix = FloatArray(16)
 
     private val tempMatrix = FloatArray(16)
+    private val modelViewMatrix = FloatArray(16)
+    private val it_modelViewMatrix = FloatArray(16)
     private val modelViewProjectionMatrix = FloatArray(16)
-    private lateinit var heightmapProgram: HeightmapShaderProgram
+
+    private lateinit var heightmapProgram: LightingShaderProgram
     private lateinit var heightmap: Heightmap
+
+    /*
+    private final Vector vectorToLight = new Vector(0.61f, 0.64f, -0.47f).normalize();
+    */
+    /*
+    private final Vector vectorToLight = new Vector(0.30f, 0.35f, -0.89f).normalize();
+    */
+    val vectorToLight: FloatArray = floatArrayOf(0.30f, 0.35f, -0.89f, 0f)
+
+    private val pointLightPositions = floatArrayOf(
+        -1f, 1f, 0f, 1f,
+        0f, 1f, 0f, 1f,
+        1f, 1f, 0f, 1f
+    )
+
+    private val pointLightColors = floatArrayOf(
+        1.00f, 0.20f, 0.02f,
+        0.02f, 0.25f, 0.02f,
+        0.02f, 0.20f, 1.00f
+    )
 
     private lateinit var skyboxProgram: SkyboxShaderProgram
     private lateinit var skybox: Skybox
@@ -81,7 +103,14 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
         // We want the translation to apply to the regular view matrix, and not
         // the skybox.
-        Matrix.translateM(viewMatrix, 0, 0f, -1.5f, -3f)
+        Matrix.translateM(viewMatrix, 0, 0f, -1.5f, -5f)
+
+        //        // This helps us figure out the vector for the sun or the moon.        
+//        final float[] tempVec = {0f, 0f, -1f, 1f};
+//        final float[] tempVec2 = new float[4];
+//        
+//        Matrix.multiplyMV(tempVec2, 0, viewMatrixForSkybox, 0, tempVec, 0);
+//        Log.v("Testing", Arrays.toString(tempVec2));
     }
 
     override fun onSurfaceCreated(glUnused: GL10?, config: EGLConfig?) {
@@ -89,7 +118,7 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
         GLES20.glEnable(GLES20.GL_DEPTH_TEST)
         GLES20.glEnable(GLES20.GL_CULL_FACE)
 
-        heightmapProgram = HeightmapShaderProgram(context)
+        heightmapProgram = LightingShaderProgram(context)
         heightmap = Heightmap(
             (ResourcesCompat.getDrawable(
                 context.resources,
@@ -97,6 +126,7 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
                 null
             ) as BitmapDrawable).bitmap
         )
+
         skyboxProgram = SkyboxShaderProgram(context)
         skybox = Skybox()
 
@@ -104,7 +134,7 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
         particleSystem = ParticleSystem(10000)
         globalStartTime = System.nanoTime()
 
-        val particleDirection = Vector(0f, 0.5f, 0f)
+        val particleDirection: Vector = Vector(0f, 0.5f, 0f)
         val angleVarianceInDegrees = 5f
         val speedVariance = 1f
 
@@ -132,32 +162,38 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
             speedVariance
         )
 
-        particleTexture = loadTexture(context, R.drawable.particle_texture)
+        particleTexture = TextureHelper.loadTexture(context, R.drawable.particle_texture)
 
-        skyboxTexture = loadCubeMap(
+
+//        skyboxTexture = TextureHelper.loadCubeMap(context, 
+//            new int[] { R.drawable.left, R.drawable.right,
+//                        R.drawable.bottom, R.drawable.top, 
+//                        R.drawable.front, R.drawable.back}); 
+        skyboxTexture = TextureHelper.loadCubeMap(
             context,
             intArrayOf(
-                R.drawable.left, R.drawable.right,
-                R.drawable.bottom, R.drawable.top,
-                R.drawable.front, R.drawable.back
+                R.drawable.night_left, R.drawable.night_right,
+                R.drawable.night_bottom, R.drawable.night_top,
+                R.drawable.night_front, R.drawable.night_back
             )
         )
     }
 
     override fun onSurfaceChanged(glUnused: GL10?, width: Int, height: Int) {
         GLES20.glViewport(0, 0, width, height)
-        Matrix.perspectiveM(projectionMatrix, 0, 45f, width.toFloat() / height.toFloat(), 1f, 100f)
-        /*
-        MatrixHelper.perspectiveM(projectionMatrix, 45, (float) width
-            / (float) height, 1f, 10f);
-        */
+
+        Matrix.perspectiveM(
+            projectionMatrix,
+            0,
+            45f,
+            width.toFloat() / height.toFloat(),
+            1f,
+            100f
+        )
         updateViewMatrices()
     }
 
     override fun onDrawFrame(glUnused: GL10?) {
-        /*
-        glClear(GL_COLOR_BUFFER_BIT);
-         */
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
 
         drawHeightmap()
@@ -168,12 +204,31 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private fun drawHeightmap() {
         Matrix.setIdentityM(modelMatrix, 0)
 
+
         // Expand the heightmap's dimensions, but don't expand the height as
-        // much so that we don't get insanely tall mountains.
+        // much so that we don't get insanely tall mountains.        
         Matrix.scaleM(modelMatrix, 0, 100f, 10f, 100f)
         updateMvpMatrix()
+
         heightmapProgram.useProgram()
-        heightmapProgram.setUniforms(modelViewProjectionMatrix)
+
+        /*
+        heightmapProgram.setUniforms(modelViewProjectionMatrix, vectorToLight);
+         */
+
+        // Put the light positions into eye space.        
+        val vectorToLightInEyeSpace = FloatArray(4)
+        val pointPositionsInEyeSpace = FloatArray(12)
+        Matrix.multiplyMV(vectorToLightInEyeSpace, 0, viewMatrix, 0, vectorToLight, 0)
+        Matrix.multiplyMV(pointPositionsInEyeSpace, 0, viewMatrix, 0, pointLightPositions, 0)
+        Matrix.multiplyMV(pointPositionsInEyeSpace, 4, viewMatrix, 0, pointLightPositions, 4)
+        Matrix.multiplyMV(pointPositionsInEyeSpace, 8, viewMatrix, 0, pointLightPositions, 8)
+
+        heightmapProgram.setUniforms(
+            modelViewMatrix, it_modelViewMatrix,
+            modelViewProjectionMatrix, vectorToLightInEyeSpace,
+            pointPositionsInEyeSpace, pointLightColors
+        )
         heightmap.bindData(heightmapProgram)
         heightmap.draw()
     }
@@ -213,9 +268,21 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
         GLES20.glDepthMask(true)
     }
 
+    /*
+    private void updateMvpMatrix() {
+        multiplyMM(tempMatrix, 0, viewMatrix, 0, modelMatrix, 0);        
+        multiplyMM(modelViewProjectionMatrix, 0, projectionMatrix, 0, tempMatrix, 0);
+    }
+    */
     private fun updateMvpMatrix() {
-        Matrix.multiplyMM(tempMatrix, 0, viewMatrix, 0, modelMatrix, 0)
-        Matrix.multiplyMM(modelViewProjectionMatrix, 0, projectionMatrix, 0, tempMatrix, 0)
+        Matrix.multiplyMM(modelViewMatrix, 0, viewMatrix, 0, modelMatrix, 0)
+        Matrix.invertM(tempMatrix, 0, modelViewMatrix, 0)
+        Matrix.transposeM(it_modelViewMatrix, 0, tempMatrix, 0)
+        Matrix.multiplyMM(
+            modelViewProjectionMatrix, 0,
+            projectionMatrix, 0,
+            modelViewMatrix, 0
+        )
     }
 
     private fun updateMvpMatrixForSkybox() {

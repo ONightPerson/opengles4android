@@ -6,27 +6,37 @@
  * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/kbogla for more book information.
  */
-package com.onzhou.opengles.heightmap.objects
+package com.onzhou.opengles.lighting.objects
 
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.opengl.GLES20
 import com.onzhou.opengles.data.IndexBuffer
 import com.onzhou.opengles.data.VertexBuffer
-import com.onzhou.opengles.heightmap.programs.HeightmapShaderProgram
+import com.onzhou.opengles.lighting.programs.LightingShaderProgram
+import com.onzhou.opengles.model.Point
+import com.onzhou.opengles.model.Vector
+import com.onzhou.opengles.model.vectorBetween
+import com.onzhou.opengles.utils.Constants.BYTES_PER_FLOAT
+import kotlin.math.max
+import kotlin.math.min
 
 class Heightmap(bitmap: Bitmap) {
-    private val width: Int = bitmap.getWidth()
-    private val height: Int = bitmap.getHeight()
+    private val width: Int
+    private val height: Int
     private val numElements: Int
+
     private val vertexBuffer: VertexBuffer
     private val indexBuffer: IndexBuffer
 
     init {
+        width = bitmap.getWidth()
+        height = bitmap.getHeight()
 
         if (width * height > 65536) {
             throw RuntimeException("Heightmap is too large for the index buffer.")
         }
+
         numElements = calculateNumElements()
         vertexBuffer = VertexBuffer(loadBitmapData(bitmap))
         indexBuffer = IndexBuffer(createIndexData())
@@ -41,8 +51,10 @@ class Heightmap(bitmap: Bitmap) {
         bitmap.recycle()
 
         val heightmapVertices =
-            FloatArray(width * height * POSITION_COMPONENT_COUNT)
+            FloatArray(width * height * TOTAL_COMPONENT_COUNT)
+
         var offset = 0
+
         for (row in 0 until height) {
             for (col in 0 until width) {
                 // The heightmap will lie flat on the XZ plane and centered
@@ -50,17 +62,55 @@ class Heightmap(bitmap: Bitmap) {
                 // bitmap height mapped to Z, and Y representing the height. We
                 // assume the heightmap is grayscale, and use the value of the
                 // red color to determine the height.
-                val xPosition = (col.toFloat() / (width - 1).toFloat()) - 0.5f
-                val yPosition =
-                    Color.red(pixels[(row * width) + col]).toFloat() / 255f
-                val zPosition = (row.toFloat() / (height - 1).toFloat()) - 0.5f
+                val point: Point = getPoint(pixels, row, col)
 
-                heightmapVertices[offset++] = xPosition
-                heightmapVertices[offset++] = yPosition
-                heightmapVertices[offset++] = zPosition
+                heightmapVertices[offset++] = point.x
+                heightmapVertices[offset++] = point.y
+                heightmapVertices[offset++] = point.z
+
+                val top: Point = getPoint(pixels, row - 1, col)
+                val left: Point = getPoint(pixels, row, col - 1)
+                val right: Point = getPoint(pixels, row, col + 1)
+                val bottom: Point = getPoint(pixels, row + 1, col)
+
+                val rightToLeft: Vector = vectorBetween(right, left)
+                val topToBottom: Vector = vectorBetween(top, bottom)
+                val normal: Vector = rightToLeft.crossProduct(topToBottom).normalize()
+
+                heightmapVertices[offset++] = normal.x
+                heightmapVertices[offset++] = normal.y
+                heightmapVertices[offset++] = normal.z
             }
         }
+
         return heightmapVertices
+    }
+
+    /**
+     * Returns a point at the expected position given by row and col, but if the
+     * position is out of bounds, then it clamps the position and uses the
+     * clamped position to read the height. For example, calling with row = -1
+     * and col = 5 will set the position as if the point really was at -1 and 5,
+     * but the height will be set to the heightmap height at (0, 5), since (-1,
+     * 5) is out of bounds. This is useful when we're generating normals, and we
+     * need to read the heights of neighbouring points.
+     */
+    private fun getPoint(pixels: IntArray, row: Int, col: Int): Point {
+        var row = row
+        var col = col
+        val x = (col.toFloat() / (width - 1).toFloat()) - 0.5f
+        val z = (row.toFloat() / (height - 1).toFloat()) - 0.5f
+
+        row = clamp(row, 0, width - 1)
+        col = clamp(col, 0, height - 1)
+
+        val y = Color.red(pixels[(row * height) + col]).toFloat() / 255f
+
+        return Point(x, y, z)
+    }
+
+    private fun clamp(`val`: Int, min: Int, max: Int): Int {
+        return max(min, min(max, `val`))
     }
 
     private fun calculateNumElements(): Int {
@@ -107,11 +157,17 @@ class Heightmap(bitmap: Bitmap) {
         return indexData
     }
 
-    fun bindData(heightmapProgram: HeightmapShaderProgram) {
+    fun bindData(heightmapProgram: LightingShaderProgram) {
         vertexBuffer.setVertexAttribPointer(
             0,
-            heightmapProgram.getPositionAttributeLocation(),
-            POSITION_COMPONENT_COUNT, 0
+            heightmapProgram.positionAttributeLocation(),
+            POSITION_COMPONENT_COUNT, STRIDE
+        )
+
+        vertexBuffer.setVertexAttribPointer(
+            POSITION_COMPONENT_COUNT * BYTES_PER_FLOAT,
+            heightmapProgram.getNormalAttributeLocation(),
+            NORMAL_COMPONENT_COUNT, STRIDE
         )
     }
 
@@ -123,5 +179,9 @@ class Heightmap(bitmap: Bitmap) {
 
     companion object {
         private const val POSITION_COMPONENT_COUNT = 3
+        private const val NORMAL_COMPONENT_COUNT = 3
+        private val TOTAL_COMPONENT_COUNT: Int = POSITION_COMPONENT_COUNT + NORMAL_COMPONENT_COUNT
+        private val STRIDE: Int =
+            (POSITION_COMPONENT_COUNT + NORMAL_COMPONENT_COUNT) * BYTES_PER_FLOAT
     }
 }

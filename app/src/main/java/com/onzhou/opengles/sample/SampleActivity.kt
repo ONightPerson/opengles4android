@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.onzhou.opengles.base.AbsBaseActivity
 import com.onzhou.opengles.heightmap.HeightMapActivity
+import com.onzhou.opengles.lighting.LightingActivity
 import com.onzhou.opengles.main.CameraSurfaceActivity
 import com.onzhou.opengles.main.ColorActivity
 import com.onzhou.opengles.main.FilterActivity
@@ -43,6 +44,10 @@ class SampleActivity : AbsBaseActivity() {
 
     fun onHeightMapClick(view: View?) {
         HeightMapActivity.intentStart(this)
+    }
+
+    fun onLightingClick(view: View) {
+        LightingActivity.intentStart(this)
     }
 
     fun onColorClick(view: View?) {

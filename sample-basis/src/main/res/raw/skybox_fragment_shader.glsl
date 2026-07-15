@@ -1,6 +1,7 @@
 precision mediump float; 
 
 uniform samplerCube u_TextureUnit;
+
 varying vec3 v_Position;
 	    	   								
 void main()                    		
