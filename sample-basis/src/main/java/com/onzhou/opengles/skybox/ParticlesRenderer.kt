@@ -31,14 +31,13 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private val viewMatrix = FloatArray(16)
     private val viewProjectionMatrix = FloatArray(16)
 
-    private var skyboxProgram: SkyboxShaderProgram? = null
-    private var skybox: Skybox? = null
-
-    private var particleProgram: ParticleShaderProgram? = null
-    private var particleSystem: ParticleSystem? = null
-    private var redParticleShooter: ParticleShooter? = null
-    private var greenParticleShooter: ParticleShooter? = null
-    private var blueParticleShooter: ParticleShooter? = null
+    private lateinit var skyboxProgram: SkyboxShaderProgram
+    private lateinit var skybox: Skybox
+    private lateinit var particleProgram: ParticleShaderProgram
+    private lateinit var particleSystem: ParticleSystem
+    private lateinit var redParticleShooter: ParticleShooter
+    private lateinit var greenParticleShooter: ParticleShooter
+    private lateinit var blueParticleShooter: ParticleShooter
 
     private var globalStartTime: Long = 0
     private var particleTexture = 0
@@ -126,18 +125,18 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
         Matrix.rotateM(viewMatrix, 0, -yRotation, 1f, 0f, 0f)
         Matrix.rotateM(viewMatrix, 0, -xRotation, 0f, 1f, 0f)
         Matrix.multiplyMM(viewProjectionMatrix, 0, projectionMatrix, 0, viewMatrix, 0)
-        skyboxProgram!!.useProgram()
-        skyboxProgram!!.setUniforms(viewProjectionMatrix, skyboxTexture)
-        skybox!!.bindData(skyboxProgram!!)
-        skybox!!.draw()
+        skyboxProgram.useProgram()
+        skyboxProgram.setUniforms(viewProjectionMatrix, skyboxTexture)
+        skybox.bindData(skyboxProgram)
+        skybox.draw()
     }
 
     private fun drawParticles() {
         val currentTime = (System.nanoTime() - globalStartTime) / 1000000000f
 
-        redParticleShooter!!.addParticles(particleSystem!!, currentTime, 1)
-        greenParticleShooter!!.addParticles(particleSystem!!, currentTime, 1)
-        blueParticleShooter!!.addParticles(particleSystem!!, currentTime, 1)
+        redParticleShooter.addParticles(particleSystem, currentTime, 1)
+        greenParticleShooter.addParticles(particleSystem, currentTime, 1)
+        blueParticleShooter.addParticles(particleSystem, currentTime, 1)
 
         Matrix.setIdentityM(viewMatrix, 0)
         Matrix.rotateM(viewMatrix, 0, -yRotation, 1f, 0f, 0f)
@@ -148,10 +147,10 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
         GLES20.glEnable(GLES20.GL_BLEND)
         GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE)
 
-        particleProgram!!.useProgram()
-        particleProgram!!.setUniforms(viewProjectionMatrix, currentTime, particleTexture)
-        particleSystem!!.bindData(particleProgram!!)
-        particleSystem!!.draw()
+        particleProgram.useProgram()
+        particleProgram.setUniforms(viewProjectionMatrix, currentTime, particleTexture)
+        particleSystem.bindData(particleProgram)
+        particleSystem.draw()
 
         GLES20.glDisable(GLES20.GL_BLEND)
     }

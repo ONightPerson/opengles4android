@@ -6,12 +6,11 @@
  * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/kbogla for more book information.
  */
-package com.onzhou.opengles.skybox
+package com.onzhou.opengles.heightmap
 
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
-import android.content.Context
 import android.content.Intent
 import android.opengl.GLSurfaceView
 import android.os.Build
@@ -21,11 +20,17 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.widget.Toast
 
-class SkyBoxActivity : Activity() {
+class HeightMapActivity : Activity() {
+
+    companion object {
+        fun intentStart(activity: Activity) {
+            activity.startActivity(Intent(activity, HeightMapActivity::class.java))
+        }
+    }
     /**
      * Hold a reference to our GLSurfaceView
      */
-    private lateinit var glSurfaceView: GLSurfaceView
+    private var glSurfaceView: GLSurfaceView? = null
     private var rendererSet = false
 
     @SuppressLint("ClickableViewAccessibility")
@@ -37,16 +42,29 @@ class SkyBoxActivity : Activity() {
         // Check if the system supports OpenGL ES 2.0.
         val activityManager =
             getSystemService(ACTIVITY_SERVICE) as ActivityManager
-        val supportsEs2: Boolean = isSupportsEs2(activityManager)
+        val configurationInfo = activityManager.deviceConfigurationInfo
+        // Even though the latest emulator supports OpenGL ES 2.0,
+        // it has a bug where it doesn't set the reqGlEsVersion so
+        // the above check doesn't work. The below will detect if the
+        // app is running on an emulator, and assume that it supports
+        // OpenGL ES 2.0.
+        val supportsEs2 =
+            configurationInfo.reqGlEsVersion >= 0x20000
+                    || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1
+                    && (Build.FINGERPRINT.startsWith("generic")
+                    || Build.FINGERPRINT.startsWith("unknown")
+                    || Build.MODEL.contains("google_sdk")
+                    || Build.MODEL.contains("Emulator")
+                    || Build.MODEL.contains("Android SDK built for x86")))
 
         val particlesRenderer = ParticlesRenderer(this)
 
         if (supportsEs2) {
             // Request an OpenGL ES 2.0 compatible context.
-            glSurfaceView.setEGLContextClientVersion(2)
+            glSurfaceView!!.setEGLContextClientVersion(2)
 
             // Assign our renderer.
-            glSurfaceView.setRenderer(particlesRenderer)
+            glSurfaceView!!.setRenderer(particlesRenderer)
             rendererSet = true
         } else {
             /*
@@ -69,31 +87,31 @@ class SkyBoxActivity : Activity() {
             return
         }
 
-        glSurfaceView.setOnTouchListener(object : OnTouchListener {
+        glSurfaceView!!.setOnTouchListener(object : OnTouchListener {
             var previousX: Float = 0f
             var previousY: Float = 0f
 
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                 if (event != null) {
-                    when(event.action) {
-                         MotionEvent.ACTION_DOWN -> {
-                             previousX = event.x
-                             previousY = event.y
-                         }
-                        MotionEvent.ACTION_MOVE -> {
-                            val curX = event.x
-                            val curY = event.y
-                            val deltaX = curX - previousX
-                            val deltaY = curY - previousY
-                            previousX = curX
-                            previousY = curY
-                            glSurfaceView.queueEvent {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        previousX = event.getX()
+                        previousY = event.getY()
+                    } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                        val deltaX = event.getX() - previousX
+                        val deltaY = event.getY() - previousY
+
+                        previousX = event.getX()
+                        previousY = event.getY()
+
+                        glSurfaceView!!.queueEvent(object : Runnable {
+                            override fun run() {
                                 particlesRenderer.handleTouchDrag(
                                     deltaX, deltaY
                                 )
                             }
-                        }
+                        })
                     }
+
                     return true
                 } else {
                     return false
@@ -108,7 +126,7 @@ class SkyBoxActivity : Activity() {
         super.onPause()
 
         if (rendererSet) {
-            glSurfaceView.onPause()
+            glSurfaceView!!.onPause()
         }
     }
 
@@ -116,29 +134,7 @@ class SkyBoxActivity : Activity() {
         super.onResume()
 
         if (rendererSet) {
-            glSurfaceView.onResume()
-        }
-    }
-
-    companion object {
-        private fun isSupportsEs2(activityManager: ActivityManager): Boolean {
-            val configurationInfo = activityManager
-                .getDeviceConfigurationInfo()
-            // Even though the latest emulator supports OpenGL ES 2.0,
-            // it has a bug where it doesn't set the reqGlEsVersion so
-            // the above check doesn't work. The below will detect if the
-            // app is running on an emulator, and assume that it supports
-            // OpenGL ES 2.0.
-            return configurationInfo.reqGlEsVersion >= 0x20000 || Build.FINGERPRINT.startsWith("generic") || Build.FINGERPRINT.startsWith(
-                "unknown"
-            ) || Build.MODEL.contains("google_sdk") || Build.MODEL.contains("Emulator") || Build.MODEL.contains(
-                "Android SDK built for x86"
-            )
-        }
-
-        fun intentStart(context: Context) {
-            val intent = Intent(context, SkyBoxActivity::class.java)
-            context.startActivity(intent)
+            glSurfaceView!!.onResume()
         }
     }
 }
