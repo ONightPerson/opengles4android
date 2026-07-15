@@ -4,6 +4,8 @@
     <uses-feature
         android:glEsVersion="0x00030000"
         android:required="true" />
+    <uses-feature android:name="android.software.live_wallpaper" />
+
 
     <application
         android:allowBackup="true"
@@ -19,5 +21,18 @@
         <activity android:name="com.onzhou.opengles.skybox.SkyBoxActivity" />
         <activity android:name="com.onzhou.opengles.heightmap.HeightMapActivity" />
         <activity android:name="com.onzhou.opengles.lighting.LightingActivity" />
+
+        <service
+            android:name="com.onzhou.opengles.wallpaper.GLWallpaperService"
+            android:label="@string/app_name"
+            android:exported="true"
+            android:permission="android.permission.BIND_WALLPAPER" >
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/wallpaper" />
+        </service>
     </application>
 </manifest>

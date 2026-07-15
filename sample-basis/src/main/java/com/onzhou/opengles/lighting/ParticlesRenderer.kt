@@ -14,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
+import android.util.Log
 import androidx.core.content.res.ResourcesCompat
 import com.onzhou.opengles.airhockey.util.TextureHelper
 import com.onzhou.opengles.lighting.objects.Heightmap
@@ -79,6 +80,9 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private var xRotation = 0f
     private var yRotation = 0f
 
+    private var xOffset = 0f
+    private var yOffset = 0f
+
     fun handleTouchDrag(deltaX: Float, deltaY: Float) {
         xRotation += deltaX / 16f
         yRotation += deltaY / 16f
@@ -94,6 +98,15 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
         updateViewMatrices()
     }
 
+
+    fun handleOffsetsChanged(xOffset: Float, yOffset: Float) {
+        Log.i("ParticlesRenderer", "handleOffsetsChanged: xOffset: $xOffset, yOffset: $yOffset")
+        // Offsets range from 0 to 1.
+        this.xOffset = (xOffset - 0.5f) * 2.5f
+        this.yOffset = (yOffset - 0.5f) * 2.5f
+        updateViewMatrices()
+    }
+
     private fun updateViewMatrices() {
         Matrix.setIdentityM(viewMatrix, 0)
         Matrix.rotateM(viewMatrix, 0, -yRotation, 1f, 0f, 0f)
@@ -103,7 +116,7 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
         // We want the translation to apply to the regular view matrix, and not
         // the skybox.
-        Matrix.translateM(viewMatrix, 0, 0f, -1.5f, -5f)
+        Matrix.translateM(viewMatrix, 0, 0 - xOffset, -1.5f - yOffset, -5f);
 
         //        // This helps us figure out the vector for the sun or the moon.        
 //        final float[] tempVec = {0f, 0f, -1f, 1f};
